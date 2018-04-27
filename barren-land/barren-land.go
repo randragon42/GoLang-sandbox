@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Location struct {
 	x int
@@ -127,10 +129,16 @@ func FloodFill(land Land, section FertileSection) {
 
 		for _, neighbor := range neighbors {
 			if neighbor.color == 0 {
-				neighbor.color = section.color
-				section.lands = append(section.lands, neighbor)
-				queue = append(queue, neighbor)
+				AllLand[neighbor.location.x][neighbor.location.y].color = section.color
+				section.lands = append(section.lands, AllLand[neighbor.location.x][neighbor.location.y])
+				queue = append(queue, AllLand[neighbor.location.x][neighbor.location.y])
 			}
+		}
+
+		// Remove - kick us out if
+		if len(queue) > 240000 {
+			fmt.Println("Your algorithm isn't right...")
+			panic(fmt.Sprintf("Queue is larger than maximum possible. Fix your algorithm"))
 		}
 	}
 
