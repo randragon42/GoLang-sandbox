@@ -23,7 +23,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="quick-sort.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="barren-land.go" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../sandbox/barren-land/barren-land.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="131" column="46" selection-start-line="131" selection-start-column="46" selection-end-line="131" selection-end-column="46" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="quick-sort.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../sandbox/sort/quick-sort.go">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="34">
@@ -60,6 +69,7 @@
         <option value="$PROJECT_DIR$/main.go" />
         <option value="$PROJECT_DIR$/../sandbox/main.go" />
         <option value="$PROJECT_DIR$/../sandbox/sort/quick-sort.go" />
+        <option value="$PROJECT_DIR$/../sandbox/barren-land/barren-land.go" />
       </list>
     </option>
   </component>
@@ -73,8 +83,8 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="2117" />
-    <option name="y" value="35" />
+    <option name="x" value="1917" />
+    <option name="y" value="6" />
     <option name="width" value="1400" />
     <option name="height" value="1000" />
   </component>
@@ -89,6 +99,11 @@
             <path>
               <item name="hello" type="b2602c69:ProjectViewProjectNode" />
               <item name="sandbox" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hello" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sandbox" type="462c0819:PsiDirectoryNode" />
+              <item name="barren-land" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="hello" type="b2602c69:ProjectViewProjectNode" />
@@ -154,7 +169,7 @@
     </recent_temporary>
   </component>
   <component name="ToolWindowManager">
-    <frame x="2117" y="35" width="1400" height="1000" extended-state="0" />
+    <frame x="1917" y="6" width="1400" height="1000" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
@@ -206,6 +221,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../sandbox/sort/quick-sort.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="73" selection-start-line="2" selection-start-column="73" selection-end-line="2" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../sandbox/main.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -216,10 +238,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../sandbox/sort/quick-sort.go">
+    <entry file="file://$PROJECT_DIR$/../sandbox/barren-land/barren-land.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="73" selection-start-line="2" selection-start-column="73" selection-end-line="2" selection-end-column="73" />
+        <state relative-caret-position="480">
+          <caret line="131" column="46" selection-start-line="131" selection-start-column="46" selection-end-line="131" selection-end-column="46" />
         </state>
       </provider>
     </entry>
