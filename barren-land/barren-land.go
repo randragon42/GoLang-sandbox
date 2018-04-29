@@ -31,6 +31,7 @@ var FertileSections []FertileSection
 var BarrenSections []BarrenSection
 
 func main() {
+	// Initialize lists
 	AllLand = [400][600]Land{}
 	FertileSections = []FertileSection{}
 	BarrenSections = []BarrenSection{}
@@ -39,20 +40,28 @@ func main() {
 
 	input := "0 292 399 307"
 
+	// Label barren section as barren
 	newBarrenSection := CreateBarrenSection(input)
 
 	fmt.Println("Barren Sections: ", BarrenSections)
 	MarkBarrenSection(newBarrenSection)
 
 	color := 1
-	for _, landColumn := range AllLand {
-		for _, land := range landColumn {
+	for i, _ := range AllLand {
+		landColumn := AllLand[i]
+		for j, _ := range landColumn {
 			//land.location = Location{i, j}
+			land := AllLand[i][j]
+			// Find an uncolored node
 			if !land.barren && land.color == 0 {
+				//fmt.Println("Creating fertile section ", color)
+				// Create a new fertile section
 				fertileSection := FertileSection{color, []Land{}}
-				FloodFill(land, fertileSection)
+				// Flood Fill new fertile section starting with the uncolored node
+				FloodFill(land, &fertileSection)
 
 				FertileSections = append(FertileSections, fertileSection)
+				spew.Dump("Appending fertile section", land)
 				color++
 			}
 		}
@@ -62,6 +71,7 @@ func main() {
 	//spew.Dump(FertileSections)
 }
 
+// Set coordinates for all land locations
 func initAllLand() {
 	for i, landColumn := range AllLand {
 		for j := range landColumn {
@@ -118,15 +128,23 @@ func FloodFillRecursive(land Land, section FertileSection) {
 
 }
 
-func FloodFill(land Land, section FertileSection) {
-	if land.barren { return }
-	if land.color == section.color { return }
+func FloodFill(land Land, section *FertileSection) {
+	// Return if land is barren or colored - TODO: redundant?
+	if land.barren {
+		fmt.Println("Land is barren")
+		return }
+	if land.color == section.color {
+		fmt.Println("Land color matches section color")
+		return }
+
+	// Color this new section of land and add it to our fertile section
 	AllLand[land.location.x][land.location.y].color = section.color
-	section.lands = append(section.lands, land)
+	section.lands = append(section.lands, AllLand[land.location.x][land.location.y])
 
 	queue := make([]Land, 0)
-	queue = append(queue, land)
+	queue = append(queue, AllLand[land.location.x][land.location.y])
 
+	// As long as the queue is not empty, keep flood filling
 	for len(queue) != 0 {
 		// Pop from queue
 		x := queue[0]
@@ -139,9 +157,11 @@ func FloodFill(land Land, section FertileSection) {
 			getNeighboringLand(x, 0, 1),
 			getNeighboringLand(x, 0, -1),
 		}
+		//spew.Dump(neighbors)
 
 		for _, neighbor := range neighbors {
 			if neighbor.color == 0 {
+				// Color the node, add it to our section, and append to queue
 				AllLand[neighbor.location.x][neighbor.location.y].color = section.color
 				section.lands = append(section.lands, AllLand[neighbor.location.x][neighbor.location.y])
 				queue = append(queue, AllLand[neighbor.location.x][neighbor.location.y])
@@ -150,7 +170,7 @@ func FloodFill(land Land, section FertileSection) {
 
 		// Remove - kick us out if we exceed maximum possible section size
 		if len(queue) > 240000 {
-			spew.Dump(queue)
+			//spew.Dump(queue)
 			panic(fmt.Sprintf("Queue is larger than maximum possible section size. Fix your algorithm"))
 		}
 	}
