@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="78fd35a3-0de3-4126-9d58-8aa68ac77f72" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/barren-land/barren-land.go" beforeDir="false" afterPath="$PROJECT_DIR$/barren-land/barren-land.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,8 +25,8 @@
       <file leaf-file-name="barren-land.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/barren-land/barren-land.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="53" column="18" selection-start-line="53" selection-start-column="18" selection-end-line="53" selection-end-column="18" />
+            <state relative-caret-position="374">
+              <caret line="49" column="45" selection-start-line="49" selection-start-column="45" selection-end-line="49" selection-end-column="45" />
               <folding>
                 <element signature="e#14#66#0" expanded="true" />
               </folding>
@@ -110,6 +108,11 @@
               <item name="golang-sandbox" type="462c0819:PsiDirectoryNode" />
               <item name="barren-land" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="golang-sandbox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="golang-sandbox" type="462c0819:PsiDirectoryNode" />
+              <item name="sort" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -175,7 +178,7 @@
     <frame x="-7" y="-7" width="1455" height="935" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2498265" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2498265" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Database" order="3" />
@@ -329,13 +332,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sort/merge-sort.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="7" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sort/quick-sort.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -350,10 +346,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/sort/merge-sort.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="7" selection-start-line="3" selection-start-column="7" selection-end-line="3" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/barren-land/barren-land.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="53" column="18" selection-start-line="53" selection-start-column="18" selection-end-line="53" selection-end-column="18" />
+        <state relative-caret-position="374">
+          <caret line="49" column="45" selection-start-line="49" selection-start-column="45" selection-end-line="49" selection-end-column="45" />
           <folding>
             <element signature="e#14#66#0" expanded="true" />
           </folding>

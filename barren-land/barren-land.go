@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/davecgh/go-spew/spew"
+	"os"
+	"bufio"
+	"../sort"
 )
 
 type Location struct {
@@ -38,36 +40,20 @@ func main() {
 
 	initAllLand()
 
-	input := "0 292 399 307"
+	//input := "0 292 399 307"
 
-	// Label barren section as barren
-	newBarrenSection := CreateBarrenSection(input)
+	getBarrenLandsFromUser()
 
-	fmt.Println("Barren Sections: ", BarrenSections)
-	MarkBarrenSection(newBarrenSection)
+	FindFertileSections()
 
-	color := 1
-	for i, _ := range AllLand {
-		landColumn := AllLand[i]
-		for j, _ := range landColumn {
-			//land.location = Location{i, j}
-			land := AllLand[i][j]
-			// Find an uncolored node
-			if !land.barren && land.color == 0 {
-				//fmt.Println("Creating fertile section ", color)
-				// Create a new fertile section
-				fertileSection := FertileSection{color, []Land{}}
-				// Flood Fill new fertile section starting with the uncolored node
-				FloodFill(land, &fertileSection)
-
-				FertileSections = append(FertileSections, fertileSection)
-				spew.Dump("Appending fertile section", land)
-				color++
-			}
-		}
+	fertileSectionSizes := []int{}
+	for _, section := range FertileSections {
+		fertileSectionSizes = append(fertileSectionSizes, len(section.lands))
 	}
 
-	fmt.Println("Number of fertile sections", len(FertileSections))
+	fertileSectionSizes = sort.TopDownMergeSort(fertileSectionSizes)
+	fmt.Println(fertileSectionSizes)
+	//fmt.Println("Number of fertile sections", len(FertileSections))
 	//spew.Dump(FertileSections)
 }
 
@@ -78,6 +64,24 @@ func initAllLand() {
 			AllLand[i][j].location = Location{i, j}
 		}
 	}
+}
+
+func getBarrenLandsFromUser() {
+	// Read from stdin
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Enter barren area: ")
+	input, _ := reader.ReadString('\n')
+	//fmt.Println(input)
+
+	if input != "\n" {
+		// Label barren section as barren
+		newBarrenSection := CreateBarrenSection(input)
+		BarrenSections = append(BarrenSections, newBarrenSection)
+		MarkBarrenSection(newBarrenSection)
+		getBarrenLandsFromUser()
+	}
+
+
 }
 
 func CreateBarrenSection(input string) (barrenSection BarrenSection){
@@ -126,6 +130,26 @@ func FloodFillRecursive(land Land, section FertileSection) {
 	FloodFillRecursive(getNeighboringLand(land, 0, 1), section)
 	FloodFillRecursive(getNeighboringLand(land, 0, -1), section)
 
+}
+
+func FindFertileSections(){
+	color := 1
+	for i := range AllLand {
+		landColumn := AllLand[i]
+		for j := range landColumn {
+			land := AllLand[i][j]
+			// Find an uncolored node
+			if !land.barren && land.color == 0 {
+				// Create a new fertile section
+				fertileSection := FertileSection{color, []Land{}}
+				// Flood Fill new fertile section starting with the uncolored node
+				FloodFill(land, &fertileSection)
+
+				FertileSections = append(FertileSections, fertileSection)
+				color++	// Set up new color for next section
+			}
+		}
+	}
 }
 
 func FloodFill(land Land, section *FertileSection) {
