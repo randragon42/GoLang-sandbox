@@ -5,6 +5,7 @@ import (
 	"os"
 	"bufio"
 	"../sort"
+	"strings"
 )
 
 type Location struct {
@@ -71,9 +72,9 @@ func getBarrenLandsFromUser() {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Print("Enter barren area: ")
 	input, _ := reader.ReadString('\n')
-	//fmt.Println(input)
 
-	if input != "\n" {
+	//input = strings.Replace(input, "\r\n", "", -1)
+	if strings.Compare(input, "\n") != 0 && strings.Compare(input, "done") != 0 {
 		// Label barren section as barren
 		newBarrenSection := CreateBarrenSection(input)
 		BarrenSections = append(BarrenSections, newBarrenSection)
