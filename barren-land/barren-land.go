@@ -40,25 +40,21 @@ func main() {
 	BarrenSections = []BarrenSection{}
 
 	initAllLand()
-
-	//input := "0 292 399 307"
-
 	getBarrenLandsFromUser()
-
 	FindFertileSections()
 
+	// Sort fertile section sizes from largest to smallest
 	fertileSectionSizes := []int{}
 	for _, section := range FertileSections {
 		fertileSectionSizes = append(fertileSectionSizes, len(section.lands))
 	}
-
 	fertileSectionSizes = sort.TopDownMergeSort(fertileSectionSizes)
+
+	// Output list to user
 	fmt.Println(fertileSectionSizes)
-	//fmt.Println("Number of fertile sections", len(FertileSections))
-	//spew.Dump(FertileSections)
 }
 
-// Set coordinates for all land locations
+// Initialize (x, y) coordinates for all land locations
 func initAllLand() {
 	for i, landColumn := range AllLand {
 		for j := range landColumn {
@@ -73,7 +69,11 @@ func getBarrenLandsFromUser() {
 	fmt.Print("Enter barren area: ")
 	input, _ := reader.ReadString('\n')
 
-	//input = strings.Replace(input, "\r\n", "", -1)
+	// TODO: Due to some odd difference between the way Unix and Windows choose to give us input from the command line,
+	// TODO: the following was done
+	input = strings.Replace(input, "\r\n", "", -1)
+
+	// For Unix users, hit enter on an empty barren section input line to exit. For Windows users, enter 'done'
 	if strings.Compare(input, "\n") != 0 && strings.Compare(input, "done") != 0 {
 		// Label barren section as barren
 		newBarrenSection := CreateBarrenSection(input)
@@ -85,6 +85,7 @@ func getBarrenLandsFromUser() {
 
 }
 
+// Parse a string of 4 integers into a BarrenSection struct
 func CreateBarrenSection(input string) (barrenSection BarrenSection){
 	// Add a new Barren Section to BarrenSections
 	coordinates := make([]int, 4)
@@ -114,17 +115,16 @@ func MarkBarrenSection(barrenSection BarrenSection) {
 		for j := barrenSection.lowerLeft.y; j <= barrenSection.upperRight.y; j++ {
 			AllLand[i][j].barren = true
 			AllLand[i][j].color = -1
-			//AllLand[i][j].location = Location{i, j}
 		}
 	}
 }
 
-// Recursive FloodFill causes a stack overflow :(
-func FloodFillRecursive(land Land, section FertileSection) {
+// Find adjacent nodes that haven't been colored yet, color them, and then do the same to their neighbors
+func FloodFillRecursive(land Land, section *FertileSection) {
 	if land.barren { return }
 	if land.color == section.color { return }
-	land.color = section.color
-	section.lands = append(section.lands, land)
+	AllLand[land.location.x][land.location.y].color = section.color
+	section.lands = append(section.lands, AllLand[land.location.x][land.location.y])
 
 	FloodFillRecursive(getNeighboringLand(land, 1, 0), section)
 	FloodFillRecursive(getNeighboringLand(land, -1, 0), section)
@@ -133,6 +133,7 @@ func FloodFillRecursive(land Land, section FertileSection) {
 
 }
 
+// Find nodes that haven't been colored yet and perform a flood fill on them
 func FindFertileSections(){
 	color := 1
 	for i := range AllLand {
@@ -144,7 +145,7 @@ func FindFertileSections(){
 				// Create a new fertile section
 				fertileSection := FertileSection{color, []Land{}}
 				// Flood Fill new fertile section starting with the uncolored node
-				FloodFill(land, &fertileSection)
+				FloodFillRecursive(land, &fertileSection)
 
 				FertileSections = append(FertileSections, fertileSection)
 				color++	// Set up new color for next section
@@ -153,15 +154,7 @@ func FindFertileSections(){
 	}
 }
 
-func FloodFill(land Land, section *FertileSection) {
-	// Return if land is barren or colored - TODO: redundant?
-	if land.barren {
-		fmt.Println("Land is barren")
-		return }
-	if land.color == section.color {
-		fmt.Println("Land color matches section color")
-		return }
-
+func FloodFillQueue(land Land, section *FertileSection) {
 	// Color this new section of land and add it to our fertile section
 	AllLand[land.location.x][land.location.y].color = section.color
 	section.lands = append(section.lands, AllLand[land.location.x][land.location.y])
@@ -182,7 +175,6 @@ func FloodFill(land Land, section *FertileSection) {
 			getNeighboringLand(x, 0, 1),
 			getNeighboringLand(x, 0, -1),
 		}
-		//spew.Dump(neighbors)
 
 		for _, neighbor := range neighbors {
 			if neighbor.color == 0 {
@@ -192,16 +184,11 @@ func FloodFill(land Land, section *FertileSection) {
 				queue = append(queue, AllLand[neighbor.location.x][neighbor.location.y])
 			}
 		}
-
-		// Remove - kick us out if we exceed maximum possible section size
-		if len(queue) > 240000 {
-			//spew.Dump(queue)
-			panic(fmt.Sprintf("Queue is larger than maximum possible section size. Fix your algorithm"))
-		}
 	}
-
 }
 
+// Get a neighboring land section based on offsets
+// Returns an invalid land that will fail the FloodFill algorithm if the location is out of bounds
 func getNeighboringLand(land Land, xOffset int, yOffset int) Land{
 	invalidLand := Land{true, -1, Location{-1, -1}}
 
@@ -212,10 +199,8 @@ func getNeighboringLand(land Land, xOffset int, yOffset int) Land{
 			return invalidLand
 	}
 
-	//fmt.Println(land.location.x + xOffset, land.location.y + yOffset)
 	x := land.location.x + xOffset
 	y := land.location.y + yOffset
-	//AllLand[x][y].location = Location{x, y}
 	neighbor := AllLand[x][y]
 
 	return neighbor
