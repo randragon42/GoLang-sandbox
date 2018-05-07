@@ -17,9 +17,9 @@ Output all the fertile land area in square meters, sorted from smallest area to 
 ### To Run
 To run the Barren Land Analysis, enusure that you have GoLang installed. You can install it from https://golang.org/dl/
 
-Once installed, clone the repo and open a terminal in /barren-land.
+Once installed, clone the repo and open a terminal in the ```/sandbox``` directory.
 
-Run ```go run barren-land.go```
+Run ```go run main.go```
 It will then prompt you to enter barren areas.
 
 Here is an example run:
@@ -32,6 +32,9 @@ Enter barren area:
 
 In order to exit the program, simply leave an empty line and press enter (Unix).
 Windows users will need to type 'done' when prompted for a barren area to signal that they have finished entering barren areas.
+
+### To Run Test
+Run ```go test``` in  the ```/tests``` directory to run all tests for the project.
 
 ### How It Works
 I made use of the [Flood Fill algorithm](https://en.wikipedia.org/wiki/Flood_fill) to solve this problem.
