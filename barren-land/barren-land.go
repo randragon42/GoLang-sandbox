@@ -1,16 +1,16 @@
-package main
+package barrenland
 
 import (
 	"fmt"
 	"os"
 	"bufio"
-	"../sort"
+	"sandbox/sort"
 	"strings"
 )
 
 type Location struct {
-	x int
-	y int
+	X int
+	Y int
 }
 
 type Land struct {
@@ -20,8 +20,8 @@ type Land struct {
 }
 
 type BarrenSection struct {
-	lowerLeft Location
-	upperRight Location
+	LowerLeft Location
+	UpperRight Location
 }
 
 type FertileSection struct {
@@ -33,7 +33,7 @@ var AllLand [400][600]Land
 var FertileSections []FertileSection
 var BarrenSections []BarrenSection
 
-func main() {
+func RunBarrenLandAnalysis() {
 	// Initialize lists
 	AllLand = [400][600]Land{}
 	FertileSections = []FertileSection{}
@@ -111,8 +111,8 @@ func CreateBarrenSection(input string) (barrenSection BarrenSection){
 }
 
 func MarkBarrenSection(barrenSection BarrenSection) {
-	for i := barrenSection.lowerLeft.x; i <= barrenSection.upperRight.x; i++ {
-		for j := barrenSection.lowerLeft.y; j <= barrenSection.upperRight.y; j++ {
+	for i := barrenSection.LowerLeft.X; i <= barrenSection.UpperRight.X; i++ {
+		for j := barrenSection.LowerLeft.Y; j <= barrenSection.UpperRight.Y; j++ {
 			AllLand[i][j].barren = true
 			AllLand[i][j].color = -1
 		}
@@ -123,8 +123,8 @@ func MarkBarrenSection(barrenSection BarrenSection) {
 func FloodFillRecursive(land Land, section *FertileSection) {
 	if land.barren { return }
 	if land.color == section.color { return }
-	AllLand[land.location.x][land.location.y].color = section.color
-	section.lands = append(section.lands, AllLand[land.location.x][land.location.y])
+	AllLand[land.location.X][land.location.Y].color = section.color
+	section.lands = append(section.lands, AllLand[land.location.X][land.location.Y])
 
 	FloodFillRecursive(getNeighboringLand(land, 1, 0), section)
 	FloodFillRecursive(getNeighboringLand(land, -1, 0), section)
@@ -156,11 +156,11 @@ func FindFertileSections(){
 
 func FloodFillQueue(land Land, section *FertileSection) {
 	// Color this new section of land and add it to our fertile section
-	AllLand[land.location.x][land.location.y].color = section.color
-	section.lands = append(section.lands, AllLand[land.location.x][land.location.y])
+	AllLand[land.location.X][land.location.Y].color = section.color
+	section.lands = append(section.lands, AllLand[land.location.X][land.location.Y])
 
 	queue := make([]Land, 0)
-	queue = append(queue, AllLand[land.location.x][land.location.y])
+	queue = append(queue, AllLand[land.location.X][land.location.Y])
 
 	// As long as the queue is not empty, keep flood filling
 	for len(queue) != 0 {
@@ -179,9 +179,9 @@ func FloodFillQueue(land Land, section *FertileSection) {
 		for _, neighbor := range neighbors {
 			if neighbor.color == 0 {
 				// Color the node, add it to our section, and append to queue
-				AllLand[neighbor.location.x][neighbor.location.y].color = section.color
-				section.lands = append(section.lands, AllLand[neighbor.location.x][neighbor.location.y])
-				queue = append(queue, AllLand[neighbor.location.x][neighbor.location.y])
+				AllLand[neighbor.location.X][neighbor.location.Y].color = section.color
+				section.lands = append(section.lands, AllLand[neighbor.location.X][neighbor.location.Y])
+				queue = append(queue, AllLand[neighbor.location.X][neighbor.location.Y])
 			}
 		}
 	}
@@ -192,15 +192,15 @@ func FloodFillQueue(land Land, section *FertileSection) {
 func getNeighboringLand(land Land, xOffset int, yOffset int) Land{
 	invalidLand := Land{true, -1, Location{-1, -1}}
 
-	if  land.location.x + xOffset < 0 ||
-		land.location.x + xOffset > 399 ||
-		land.location.y + yOffset < 0 ||
-		land.location.y + yOffset > 599 {
+	if  land.location.X + xOffset < 0 ||
+		land.location.X + xOffset > 399 ||
+		land.location.Y + yOffset < 0 ||
+		land.location.Y + yOffset > 599 {
 			return invalidLand
 	}
 
-	x := land.location.x + xOffset
-	y := land.location.y + yOffset
+	x := land.location.X + xOffset
+	y := land.location.Y + yOffset
 	neighbor := AllLand[x][y]
 
 	return neighbor
