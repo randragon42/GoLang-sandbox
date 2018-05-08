@@ -1,5 +1,5 @@
 ## Go Sandbox
-A sandbox for learning an playing with Go.
+A sandbox for trying out Go.
 
 ### Barren Lands Analysis
 An algorithms problem I solved to get the hang of using Go. See more [here](https://github.com/randragon42/GoLang-sandbox/tree/master/barren-land)
