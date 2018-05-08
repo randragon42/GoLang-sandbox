@@ -3,6 +3,7 @@ package main
 import (
 	//"fmt"
 	//"sandbox/sort"
+	"fmt"
 	"sandbox/barren-land"
 )
 
@@ -19,9 +20,8 @@ func main() {
 	// fmt.Println(sortedNumbers)
 
 	// fmt.Println("\nQuick Sort:")
-	// sort.QuickSort(numbers, 0, len(numbers) - 1)
+	// sort.QuickSort(numbers, 0, len(numbers)-1)
 	// fmt.Println(numbers)
 
-	barrenland.RunBarrenLandAnalysis()
+	fmt.Println(barrenland.RunBarrenLandAnalysis(nil))
 }
-

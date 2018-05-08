@@ -1,9 +1,9 @@
 package barrenland
 
 import (
+	"bufio"
 	"fmt"
 	"os"
-	"bufio"
 	"sandbox/sort"
 	"strings"
 )
@@ -14,13 +14,13 @@ type Location struct {
 }
 
 type Land struct {
-	barren bool
-	color int
+	barren   bool
+	color    int
 	location Location
 }
 
 type BarrenSection struct {
-	LowerLeft Location
+	LowerLeft  Location
 	UpperRight Location
 }
 
@@ -33,14 +33,20 @@ var AllLand [400][600]Land
 var FertileSections []FertileSection
 var BarrenSections []BarrenSection
 
-func RunBarrenLandAnalysis() {
+func RunBarrenLandAnalysis(barrenSectionInput []string) []int {
 	// Initialize lists
 	AllLand = [400][600]Land{}
 	FertileSections = []FertileSection{}
 	BarrenSections = []BarrenSection{}
 
 	initAllLand()
-	getBarrenLandsFromUser()
+	if len(barrenSectionInput) > 0 {
+		for _, barrenSection := range barrenSectionInput {
+			CreateBarrenSection(barrenSection)
+		}
+	} else {
+		getBarrenLandsFromUser()
+	}
 	FindFertileSections()
 
 	// Sort fertile section sizes from largest to smallest
@@ -50,8 +56,7 @@ func RunBarrenLandAnalysis() {
 	}
 	fertileSectionSizes = sort.TopDownMergeSort(fertileSectionSizes)
 
-	// Output list to user
-	fmt.Println(fertileSectionSizes)
+	return fertileSectionSizes
 }
 
 // Initialize (x, y) coordinates for all land locations
@@ -76,17 +81,14 @@ func getBarrenLandsFromUser() {
 	// For Unix users, hit enter on an empty barren section input line to exit. For Windows users, enter 'done'
 	if strings.Compare(input, "\n") != 0 && strings.Compare(input, "done") != 0 {
 		// Label barren section as barren
-		newBarrenSection := CreateBarrenSection(input)
-		BarrenSections = append(BarrenSections, newBarrenSection)
-		MarkBarrenSection(newBarrenSection)
+		CreateBarrenSection(input)
 		getBarrenLandsFromUser()
 	}
-
 
 }
 
 // Parse a string of 4 integers into a BarrenSection struct
-func CreateBarrenSection(input string) (barrenSection BarrenSection){
+func CreateBarrenSection(input string) (barrenSection BarrenSection) {
 	// Add a new Barren Section to BarrenSections
 	coordinates := make([]int, 4)
 	_, err := fmt.Sscan(input, &coordinates[0], &coordinates[1], &coordinates[2], &coordinates[3])
@@ -95,18 +97,19 @@ func CreateBarrenSection(input string) (barrenSection BarrenSection){
 		return
 	}
 
-	barrenSection = BarrenSection {
-		 Location {
+	barrenSection = BarrenSection{
+		Location{
 			coordinates[0],
 			coordinates[1],
 		},
-		Location {
+		Location{
 			coordinates[2],
 			coordinates[3],
 		},
 	}
 
 	BarrenSections = append(BarrenSections, barrenSection)
+	MarkBarrenSection(barrenSection)
 	return barrenSection
 }
 
@@ -121,8 +124,12 @@ func MarkBarrenSection(barrenSection BarrenSection) {
 
 // Find adjacent nodes that haven't been colored yet, color them, and then do the same to their neighbors
 func FloodFillRecursive(land Land, section *FertileSection) {
-	if land.barren { return }
-	if land.color == section.color { return }
+	if land.barren {
+		return
+	}
+	if land.color == section.color {
+		return
+	}
 	AllLand[land.location.X][land.location.Y].color = section.color
 	section.lands = append(section.lands, AllLand[land.location.X][land.location.Y])
 
@@ -134,7 +141,7 @@ func FloodFillRecursive(land Land, section *FertileSection) {
 }
 
 // Find nodes that haven't been colored yet and perform a flood fill on them
-func FindFertileSections(){
+func FindFertileSections() {
 	color := 1
 	for i := range AllLand {
 		landColumn := AllLand[i]
@@ -148,7 +155,7 @@ func FindFertileSections(){
 				FloodFillRecursive(land, &fertileSection)
 
 				FertileSections = append(FertileSections, fertileSection)
-				color++	// Set up new color for next section
+				color++ // Set up new color for next section
 			}
 		}
 	}
@@ -189,14 +196,14 @@ func FloodFillQueue(land Land, section *FertileSection) {
 
 // Get a neighboring land section based on offsets
 // Returns an invalid land that will fail the FloodFill algorithm if the location is out of bounds
-func getNeighboringLand(land Land, xOffset int, yOffset int) Land{
+func getNeighboringLand(land Land, xOffset int, yOffset int) Land {
 	invalidLand := Land{true, -1, Location{-1, -1}}
 
-	if  land.location.X + xOffset < 0 ||
-		land.location.X + xOffset > 399 ||
-		land.location.Y + yOffset < 0 ||
-		land.location.Y + yOffset > 599 {
-			return invalidLand
+	if land.location.X+xOffset < 0 ||
+		land.location.X+xOffset > 399 ||
+		land.location.Y+yOffset < 0 ||
+		land.location.Y+yOffset > 599 {
+		return invalidLand
 	}
 
 	x := land.location.X + xOffset
