@@ -1,4 +1,4 @@
-##Go Sandbox
+## Go Sandbox
 A sandbox for learning an playing with Go.
 
 ### Barren Lands Analysis
