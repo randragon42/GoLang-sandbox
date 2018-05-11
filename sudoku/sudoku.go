@@ -49,5 +49,21 @@ func convertToString(input [9][9]int) string {
 }
 
 func solvePuzzle() {
+	// Loop through the puzzle looking for unsolved spaces
 
+	// Check for possible values in an unsolved space
+	// If there is only one, solve that space
+
+	// Check to see if the puzzle is solved, if not, solvePuzzle()
+}
+
+// Find all possible values that a specific spot could be
+func findPossibleValues(row int, col int) {
+	// Check row
+
+	// Check column
+
+	// Check the box it's in
+
+	// Return a list of values that weren't ruled out
 }
