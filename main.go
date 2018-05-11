@@ -5,6 +5,7 @@ import (
 	//"sandbox/sort"
 	"fmt"
 	"sandbox/barren-land"
+	"strings"
 )
 
 func main() {
@@ -23,5 +24,6 @@ func main() {
 	// sort.QuickSort(numbers, 0, len(numbers)-1)
 	// fmt.Println(numbers)
 
-	fmt.Println(barrenland.RunBarrenLandAnalysis(nil))
+	fertileLandSizes := barrenland.RunBarrenLandAnalysis(nil)
+	fmt.Println(strings.Trim(fmt.Sprint(fertileLandSizes), "[]"))
 }
