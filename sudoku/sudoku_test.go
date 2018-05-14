@@ -31,6 +31,7 @@ func TestSolveSudoku(t *testing.T) {
 	}
 }
 
+//https://secure.i.telegraph.co.uk/multimedia/archive/02260/Untitled-1_2260725b.jpg
 func TestWorldsHardestSudokuProblem(t *testing.T) {
 	testProblem := `8 _ _ _ _ _ _ _ _
 	_ _ 3 6 _ _ _ _ _

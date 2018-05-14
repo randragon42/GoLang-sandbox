@@ -1,10 +1,13 @@
 package sudoku
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 )
+
+type SudokuProblem struct {
+	Problem string
+}
 
 type Spot struct {
 	row int
@@ -110,19 +113,11 @@ func findPossibleSolutions(spot Spot) []int {
 		}
 	}
 
-	if spot.row == 3 && spot.col == 6 {
-		fmt.Println("Row:", possibleSolutions)
-	}
-
 	// Check column
 	for i := 0; i < 9; i++ {
 		if puzzle[i][spot.col] != 0 {
 			possibleSolutions = removeFromPossibleSolutions(puzzle[i][spot.col], possibleSolutions)
 		}
-	}
-
-	if spot.row == 3 && spot.col == 6 {
-		fmt.Println("Col:", possibleSolutions)
 	}
 
 	// Check box
@@ -134,10 +129,6 @@ func findPossibleSolutions(spot Spot) []int {
 				possibleSolutions = removeFromPossibleSolutions(puzzle[i][j], possibleSolutions)
 			}
 		}
-	}
-
-	if spot.row == 3 && spot.col == 6 {
-		fmt.Println("Box:", possibleSolutions)
 	}
 
 	return possibleSolutions
