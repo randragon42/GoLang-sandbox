@@ -25,7 +25,6 @@ func sudokuHandler(w http.ResponseWriter, r *http.Request) {
 
 	defer r.Body.Close()
 
-	fmt.Fprintf(w, "URL.Path = %q\n", r.URL.Path)
 	solution := sudoku.SolveSudoku(problem.Problem)
-	fmt.Fprintf(w, "Body = %v", solution)
+	fmt.Fprintf(w, "%v", solution)
 }
