@@ -25,6 +25,6 @@ func sudokuHandler(w http.ResponseWriter, r *http.Request) {
 
 	defer r.Body.Close()
 
-	solution := sudoku.SolveSudoku(problem.Problem)
+	solution := sudoku.SolveSudokuProblem(problem)
 	fmt.Fprintf(w, "%v", solution)
 }

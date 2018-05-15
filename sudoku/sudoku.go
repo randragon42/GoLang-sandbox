@@ -17,16 +17,18 @@ type Spot struct {
 
 var puzzle SudokuProblem
 
-//SolveSudoku solves a 9x9 sudoku puzzle passed as a string with '_' representing blanks
+//SolveSudoku solves a SudokuProblem passed as a JSON string with '0' representing blanks
 func SolveSudoku(input string) string {
-	puzzle = ConvertJsonToPuzzle(input)
-
-	puzzle.Solved = solvePuzzleBruteForce()
-
-	return ConvertPuzzleToJson(puzzle)
+	return SolveSudokuProblem(convertJsonToPuzzle(input))
 }
 
-func ConvertJsonToPuzzle(input string) SudokuProblem {
+func SolveSudokuProblem(problem SudokuProblem) string {
+	puzzle = problem
+	puzzle.Solved = solvePuzzleBruteForce()
+	return convertPuzzleToJson(puzzle)
+}
+
+func convertJsonToPuzzle(input string) SudokuProblem {
 	sudokuProblem := SudokuProblem{}
 	err := json.Unmarshal([]byte(input), &sudokuProblem)
 	if err != nil {
@@ -35,7 +37,7 @@ func ConvertJsonToPuzzle(input string) SudokuProblem {
 	return sudokuProblem
 }
 
-func ConvertPuzzleToJson(input SudokuProblem) string {
+func convertPuzzleToJson(input SudokuProblem) string {
 	problemJson, err := json.Marshal(input)
 	if err != nil {
 		fmt.Println(err.Error())

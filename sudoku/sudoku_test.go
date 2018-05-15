@@ -35,9 +35,9 @@ func TestSolveSudoku(t *testing.T) {
 		"Solved": true
 		}`
 
-	expectedSolution := ConvertJsonToPuzzle(expectedSolutionJson)
+	expectedSolution := convertJsonToPuzzle(expectedSolutionJson)
 
-	solution := ConvertJsonToPuzzle(SolveSudoku(testProblemJson))
+	solution := convertJsonToPuzzle(SolveSudoku(testProblemJson))
 
 	if expectedSolution != solution {
 		t.Errorf("Solution was incorrect, got:\n%v\nexpected:\n%v\n", solution, expectedSolution)
@@ -76,9 +76,9 @@ func TestWorldsHardestSudokuProblem(t *testing.T) {
 		"Solved": true
 		}`
 
-	expectedSolution := ConvertJsonToPuzzle(expectedSolutionJson)
+	expectedSolution := convertJsonToPuzzle(expectedSolutionJson)
 
-	solution := ConvertJsonToPuzzle(SolveSudoku(testProblemJson))
+	solution := convertJsonToPuzzle(SolveSudoku(testProblemJson))
 
 	if expectedSolution != solution {
 		t.Errorf("Solution was incorrect, got:\n%v\nexpected:\n%v\n", solution, expectedSolution)
